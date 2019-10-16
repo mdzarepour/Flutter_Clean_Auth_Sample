@@ -32,6 +32,7 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
         'collections/users/auth-with-password',
         data: params.toMap(),
       );
+      print('datasource yes');
       return response;
     } on DioException {
       rethrow;

@@ -5,6 +5,7 @@ import 'package:auth_sample/fetures/auth/data/repository/auth_repository_imp.dar
 import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/login_user.dart';
+import 'package:auth_sample/fetures/auth/domain/usecases/logout_user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/register_user.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
@@ -31,7 +32,6 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<AuthRemoteDatasource>(
     () => AuthRemoteDatasourceImp(dioClient: locator.get()),
   );
-
   locator.registerLazySingleton<AuthLocalDatasource>(
     () => AuthLocalDatasourceImp(sharedPreferences: locator.get()),
   );
@@ -48,8 +48,13 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<RegisterUser>(
     () => RegisterUser(authRepository: locator.get()),
   );
+  locator.registerLazySingleton<LogoutUser>(
+    () => LogoutUser(authRepository: locator.get()),
+  );
 
-  locator.registerLazySingleton(() => LoginUser(authRepository: locator.get()));
+  locator.registerLazySingleton<LoginUser>(
+    () => LoginUser(authRepository: locator.get()),
+  );
 
   locator.registerLazySingleton<CheckLoggin>(
     () => CheckLoggin(authRepository: locator.get()),
@@ -58,8 +63,9 @@ Future<void> setupLocator() async {
   // blocs & cubits -->
   locator.registerFactory(
     () => ButtonCubit(
-      registerUsecase: locator.get(),
-      loginUsecase: locator.get(),
+      registerUserUsecase: locator.get(),
+      loginUserUsecase: locator.get(),
+      logoutUserUsecase: locator.get(),
     ),
   );
   locator.registerFactory(

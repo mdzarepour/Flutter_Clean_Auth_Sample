@@ -15,6 +15,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //TODO learn how to user Empty params for methods
 //TODO seperate username field from password
 //TODO write navigator link navigations with gorouter
+//TODO wrte registerpage obscure toggle in single method
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

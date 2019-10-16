@@ -1,23 +1,28 @@
 import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
+import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/login_user.dart';
+import 'package:auth_sample/fetures/auth/domain/usecases/logout_user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/register_user.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 part 'button_state.dart';
 
 class ButtonCubit extends Cubit<ButtonState> {
-  final RegisterUser registerUsecase;
-  final LoginUser loginUsecase;
+  final RegisterUser registerUserUsecase;
+  final LoginUser loginUserUsecase;
+  final LogoutUser logoutUserUsecase;
 
-  ButtonCubit({required this.registerUsecase, required this.loginUsecase})
-    : super(ButtonInitial());
+  ButtonCubit({
+    required this.registerUserUsecase,
+    required this.loginUserUsecase,
+    required this.logoutUserUsecase,
+  }) : super(ButtonInitial());
 
   Future<void> register({required RegisterParams params}) async {
     emit(ButtonLoading());
-    final either = await registerUsecase.call(params: params);
+    final either = await registerUserUsecase.call(params: params);
     either.fold(
       (message) {
         emit(ButtonFail(errorMessage: message));
@@ -32,7 +37,7 @@ class ButtonCubit extends Cubit<ButtonState> {
 
   Future<void> login({required LoginParams params}) async {
     emit(ButtonLoading());
-    final either = await loginUsecase.call(params: params);
+    final either = await loginUserUsecase.call(params: params);
     either.fold(
       (message) {
         emit(ButtonFail(errorMessage: message));
@@ -43,5 +48,17 @@ class ButtonCubit extends Cubit<ButtonState> {
         emit(ButtonInitial());
       },
     );
+  }
+
+  Future<void> logout({required EmptyParams params}) async {
+    emit(ButtonLoading());
+    final bool status = await logoutUserUsecase.call(params: params);
+    if (status) {
+      Future.delayed(Duration(milliseconds: 1500), () {
+        emit(ButtonSuccess());
+      });
+    } else {
+      emit(ButtonFail());
+    }
   }
 }

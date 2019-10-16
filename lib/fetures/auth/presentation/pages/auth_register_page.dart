@@ -6,10 +6,9 @@ import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/core/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
-import 'package:auth_sample/fetures/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +39,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
           if (state is ButtonFail) {
             ScaffoldMessenger.of(
               context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
           }
           if (state is ButtonSuccess) {
             Navigator.pushAndRemoveUntil(
@@ -165,7 +164,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
           });
         },
         icon: Icon(
-          isObscurePass ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
+          isObscurePassConfirm ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
         ),
       ),
       validator: (value) {

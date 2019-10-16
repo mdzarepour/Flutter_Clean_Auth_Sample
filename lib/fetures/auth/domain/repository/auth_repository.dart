@@ -6,4 +6,5 @@ abstract interface class AuthRepository {
   Future<Either> registerUser({required RegisterParams params});
   Future<Either> loginUser({required LoginParams params});
   Either<bool, bool> isUserLoggedIn();
+  Future<bool> logoutUser();
 }

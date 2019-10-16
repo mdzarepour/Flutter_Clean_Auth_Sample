@@ -67,7 +67,9 @@ class LoginAnimation {
     }
   }
 
-  void fireSuccess() => loginSuccess!.fire();
+  void fireSuccess() {
+    loginSuccess!.fire();
+  }
 
   void fireFail() => loginFail!.fire();
 }

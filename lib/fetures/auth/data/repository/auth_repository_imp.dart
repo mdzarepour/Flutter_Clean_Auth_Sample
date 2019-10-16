@@ -1,3 +1,4 @@
+import 'package:auth_sample/core/netword/sharedprefrences_exeption.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_local_datasource.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
@@ -47,6 +48,17 @@ class AuthRepositoryImp implements AuthRepository {
       }
     } on DioException catch (e) {
       return left(e.response!.data['message']);
+    }
+  }
+
+  @override
+  Future<bool> logoutUser() async {
+    try {
+      await authLocalDatasource.removeToken();
+
+      return true;
+    } on SharedprefrencesExeption {
+      return false;
     }
   }
 

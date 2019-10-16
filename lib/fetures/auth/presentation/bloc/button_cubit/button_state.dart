@@ -10,6 +10,6 @@ final class ButtonLoading extends ButtonState {}
 final class ButtonSuccess extends ButtonState {}
 
 final class ButtonFail extends ButtonState {
-  final String errorMessage;
-  ButtonFail({required this.errorMessage});
+  final String? errorMessage;
+  ButtonFail({this.errorMessage});
 }

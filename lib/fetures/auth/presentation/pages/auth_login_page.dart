@@ -7,7 +7,7 @@ import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_register_page.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/core/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/fetures/home/home_page.dart';
@@ -35,7 +35,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   final rabbit = locator.get<LoginAnimation>();
   final formKey = GlobalKey<FormState>();
 
-  Future<void> _initRabbit() async {
+  Future _initRabbit() async {
     await rabbit.initAnimation();
     if (mounted) setState(() {});
   }
@@ -61,15 +61,19 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
             : BlocListener<ButtonCubit, ButtonState>(
                 listener: (context, state) {
                   if (state is ButtonFail) {
-                    ScaffoldMessenger.of(
-                      context,
-                    ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                    rabbit.fireFail();
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text(state.errorMessage!)),
+                    );
                   }
                   if (state is ButtonSuccess) {
-                    final route = CupertinoPageRoute(
-                      builder: (context) => HomePage(),
-                    );
-                    Navigator.pushReplacement(context, route);
+                    rabbit.fireSuccess();
+                    Future.delayed(Duration(seconds: 2), () {
+                      final route = CupertinoPageRoute(
+                        builder: (context) => HomePage(),
+                      );
+                      Navigator.pushReplacement(context, route);
+                    });
                   }
                 },
                 child: Form(
@@ -138,7 +142,11 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
         if (value.isEmpty) {
           rabbit.resetRabbitState();
         } else {
-          rabbit.updateRabbitEye(open: false, length: value.length);
+          if (isObscure) {
+            rabbit.updateRabbitEye(open: false, length: 0);
+          } else {
+            rabbit.updateRabbitEye(open: true, length: value.length);
+          }
         }
       },
       validator: (value) {
