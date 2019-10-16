@@ -1,4 +1,4 @@
-import 'package:auth_sample/core/widgets/cubit_button.dart';
+import 'package:auth_sample/core/utils/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_wrapper_page.dart';

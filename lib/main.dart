@@ -1,4 +1,5 @@
 import 'package:auth_sample/core/theme/app_theme.dart';
+import 'package:auth_sample/core/utils/services/snackbar_service.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_wrapper_page.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //TODO seperate username field from password
 //TODO write navigator link navigations with gorouter
 //TODO wrte registerpage obscure toggle in single method
+//TODO manage snackbars in a contextless way
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +37,7 @@ class Application extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
+        navigatorKey: locator.get<SnackbarService>().navigatorKey,
         home: BlocBuilder<ToggleCubit, AuthState>(
           builder: (context, state) {
             if (state is Authenticated) {

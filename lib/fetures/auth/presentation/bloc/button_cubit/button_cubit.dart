@@ -1,3 +1,4 @@
+import 'package:auth_sample/core/utils/services/snackbar_service.dart';
 import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
@@ -13,11 +14,13 @@ class ButtonCubit extends Cubit<ButtonState> {
   final RegisterUser registerUserUsecase;
   final LoginUser loginUserUsecase;
   final LogoutUser logoutUserUsecase;
+  final SnackbarService snackbarService;
 
   ButtonCubit({
     required this.registerUserUsecase,
     required this.loginUserUsecase,
     required this.logoutUserUsecase,
+    required this.snackbarService,
   }) : super(ButtonInitial());
 
   Future<void> register({required RegisterParams params}) async {
@@ -25,7 +28,8 @@ class ButtonCubit extends Cubit<ButtonState> {
     final either = await registerUserUsecase.call(params: params);
     either.fold(
       (message) {
-        emit(ButtonFail(errorMessage: message));
+        emit(ButtonFail());
+        snackbarService.showSnackbar(message: message);
         emit(ButtonInitial());
       },
       (id) {
@@ -40,7 +44,8 @@ class ButtonCubit extends Cubit<ButtonState> {
     final either = await loginUserUsecase.call(params: params);
     either.fold(
       (message) {
-        emit(ButtonFail(errorMessage: message));
+        emit(ButtonFail());
+        snackbarService.showSnackbar(message: message);
         emit(ButtonInitial());
       },
       (loginModel) {

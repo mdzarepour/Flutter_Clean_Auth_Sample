@@ -1,5 +1,5 @@
-import 'package:auth_sample/core/constants/const_colors.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/core/utils/constants/const_colors.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {

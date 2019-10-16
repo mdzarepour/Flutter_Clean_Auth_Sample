@@ -1,4 +1,4 @@
-import 'package:auth_sample/core/constants/const_strings.dart';
+import 'package:auth_sample/core/utils/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigation_button.dart';

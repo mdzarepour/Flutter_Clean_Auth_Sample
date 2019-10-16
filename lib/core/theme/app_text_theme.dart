@@ -1,4 +1,4 @@
-import 'package:auth_sample/core/constants/const_colors.dart';
+import 'package:auth_sample/core/utils/constants/const_colors.dart';
 import 'package:flutter/widgets.dart';
 import 'package:google_fonts/google_fonts.dart';
 

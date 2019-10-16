@@ -1,14 +1,14 @@
 // ignore_for_file: body_might_complete_normally_nullable
-
-import 'package:auth_sample/core/constants/const_regexes.dart';
-import 'package:auth_sample/core/constants/const_strings.dart';
+import 'package:auth_sample/core/utils/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
-import 'package:auth_sample/core/widgets/cubit_button.dart';
+import 'package:auth_sample/core/utils/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
+import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +21,7 @@ class AuthRegisterPage extends StatefulWidget {
 }
 
 class _AuthRegisterPageState extends State<AuthRegisterPage> {
+  final regex = locator.get<RegexService>();
   final formKey = GlobalKey<FormState>();
 
   final usernameController = TextEditingController();
@@ -36,11 +37,6 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     return Scaffold(
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
-          if (state is ButtonFail) {
-            ScaffoldMessenger.of(
-              context,
-            ).showSnackBar(SnackBar(content: Text(state.errorMessage!)));
-          }
           if (state is ButtonSuccess) {
             Navigator.pushAndRemoveUntil(
               context,
@@ -99,12 +95,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       icon: const Icon(CupertinoIcons.person),
       controller: usernameController,
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return ConstStrings.usernameEmptyMsg;
-        }
-        if (!ConstRegexes.usernamePattern.hasMatch(value)) {
-          return ConstStrings.usernameMatchMsg;
-        }
+        return regex.getMessage(regexType: RegexType.username, value: value);
       },
     );
   }
@@ -116,12 +107,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       hint: ConstStrings.name,
       icon: const Icon(CupertinoIcons.person),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return ConstStrings.usernameEmptyMsg;
-        }
-        if (!ConstRegexes.usernamePattern.hasMatch(value)) {
-          return ConstStrings.usernameMatchMsg;
-        }
+        return regex.getMessage(regexType: RegexType.username, value: value);
       },
     );
   }
@@ -142,12 +128,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
         ),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return ConstStrings.passwordEmptyMsg;
-        }
-        if (!ConstRegexes.passwordPattern.hasMatch(value)) {
-          return ConstStrings.passwordMatchMsg;
-        }
+        return regex.getMessage(regexType: RegexType.password, value: value);
       },
     );
   }
@@ -168,12 +149,10 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
         ),
       ),
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return ConstStrings.confirmPasswordEmptyMsg;
-        }
         if (value != passwordController.text) {
           return ConstStrings.confirmPasswordMatchMsg;
         }
+        return regex.getMessage(regexType: RegexType.password, value: value);
       },
     );
   }

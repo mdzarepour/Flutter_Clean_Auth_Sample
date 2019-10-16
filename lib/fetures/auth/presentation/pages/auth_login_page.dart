@@ -1,13 +1,13 @@
 // ignore_for_file: body_might_complete_normally_nullable
 
-import 'package:auth_sample/core/constants/const_regexes.dart';
-import 'package:auth_sample/core/constants/const_strings.dart';
+import 'package:auth_sample/core/utils/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_register_page.dart';
-import 'package:auth_sample/core/widgets/cubit_button.dart';
+import 'package:auth_sample/core/utils/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/fetures/home/home_page.dart';
@@ -28,12 +28,13 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
-  final passwordFocusNode = FocusNode();
-
   bool isObscure = true;
 
-  final rabbit = locator.get<LoginAnimation>();
   final formKey = GlobalKey<FormState>();
+  final passwordFocusNode = FocusNode();
+
+  final rabbit = locator.get<LoginAnimation>();
+  final regex = locator.get<RegexService>();
 
   Future _initRabbit() async {
     await rabbit.initAnimation();
@@ -62,9 +63,6 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                 listener: (context, state) {
                   if (state is ButtonFail) {
                     rabbit.fireFail();
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text(state.errorMessage!)),
-                    );
                   }
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
@@ -150,12 +148,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
         }
       },
       validator: (value) {
-        if (value!.isEmpty) {
-          return ConstStrings.passwordEmptyMsg;
-        }
-        if (!ConstRegexes.passwordPattern.hasMatch(value)) {
-          return ConstStrings.passwordMatchMsg;
-        }
+        return regex.getMessage(regexType: RegexType.password, value: value);
       },
     );
   }
@@ -169,12 +162,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
         rabbit.updateRabbitEye(open: true, length: value.length);
       },
       validator: (value) {
-        if (value == null || value.isEmpty) {
-          return ConstStrings.usernameEmptyMsg;
-        }
-        if (!ConstRegexes.usernamePattern.hasMatch(value)) {
-          return ConstStrings.usernameMatchMsg;
-        }
+        return regex.getMessage(regexType: RegexType.username, value: value);
       },
     );
   }

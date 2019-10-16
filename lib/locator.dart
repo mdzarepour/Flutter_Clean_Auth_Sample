@@ -1,4 +1,6 @@
 import 'package:auth_sample/core/netword/dio_client.dart';
+import 'package:auth_sample/core/utils/services/regex_service.dart';
+import 'package:auth_sample/core/utils/services/snackbar_service.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_local_datasource.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_remote_datasource.dart';
 import 'package:auth_sample/fetures/auth/data/repository/auth_repository_imp.dart';
@@ -23,6 +25,8 @@ Future<void> setupLocator() async {
 
   // helper classes -->
   locator.registerLazySingleton<LoginAnimation>(() => LoginAnimation());
+  locator.registerLazySingleton<SnackbarService>(() => SnackbarService());
+  locator.registerLazySingleton<RegexService>(() => RegexService());
 
   // dio -->
   locator.registerSingleton<Dio>(Dio());
@@ -63,6 +67,7 @@ Future<void> setupLocator() async {
   // blocs & cubits -->
   locator.registerFactory(
     () => ButtonCubit(
+      snackbarService: locator.get(),
       registerUserUsecase: locator.get(),
       loginUserUsecase: locator.get(),
       logoutUserUsecase: locator.get(),
