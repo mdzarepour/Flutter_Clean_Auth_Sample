@@ -1,7 +1,6 @@
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
-
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_widget.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield_widget.dart';
 import 'package:flutter/cupertino.dart';
