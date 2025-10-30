@@ -21,7 +21,6 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
 
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
-  final passwordFocus = FocusNode();
 
   bool isObscure = true;
 
@@ -42,7 +41,6 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        passwordFocus.unfocus();
         rabbit.resetRabbitState();
       },
       child: Scaffold(
@@ -55,67 +53,82 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   child: Column(
                     children: [
                       const SizedBox(height: 80),
-                      Text(
-                        ConstStrings.authLoginTitle,
-                        style: AppTextTheme.blue35bold,
-                      ),
-                      SizedBox(
-                        height: 200,
-                        child: Rive(
-                          artboard: rabbit.artboard!,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      AuthTextfieldWidget(
-                        controller: passwordController,
-                        isObscure: isObscure,
-                        hint: ConstStrings.password,
-                        icon: IconButton(
-                          onPressed: _toggleObscure,
-                          icon: Icon(
-                            isObscure
-                                ? CupertinoIcons.eye_slash
-                                : CupertinoIcons.eye,
-                          ),
-                        ),
-                        onChanged: (value) {
-                          if (value.isEmpty) {
-                            rabbit.resetRabbitState();
-                          } else {
-                            rabbit.updateRabbitEye(
-                              open: isObscure,
-                              length: value.length,
-                            );
-                          }
-                        },
-                      ),
+                      _title(),
+                      _animation(),
+                      _passwordField(),
                       const SizedBox(height: 25),
-                      AuthTextfieldWidget(
-                        controller: emailController,
-                        isObscure: false,
-                        hint: ConstStrings.email,
-                        icon: const Icon(CupertinoIcons.mail),
-                        onChanged: (value) => rabbit.updateRabbitEye(
-                          open: true,
-                          length: value.length,
-                        ),
-                      ),
+                      _emailField(),
                       const SizedBox(height: 25),
-                      AuthButtonWidget(
-                        title: ConstStrings.login,
-                        onTap: () {
-                          if (formKey.currentState?.validate() ?? false) {
-                            rabbit.loginSuccess;
-                          } else {
-                            rabbit.loginFail;
-                          }
-                        },
-                      ),
+                      _loginButton(),
                     ],
                   ),
                 ),
               ),
       ),
+    );
+  }
+
+  Text _title() {
+    return Text(
+      textAlign: TextAlign.center,
+      ConstStrings.authLoginTitle,
+      style: AppTextTheme.blue35bold,
+    );
+  }
+
+  SizedBox _animation() {
+    return SizedBox(
+      height: 200,
+      child: Rive(
+        antialiasing: true,
+        artboard: rabbit.artboard!,
+        fit: BoxFit.contain,
+      ),
+    );
+  }
+
+  AuthTextfieldWidget _passwordField() {
+    return AuthTextfieldWidget(
+      controller: passwordController,
+      isObscure: isObscure,
+      hint: ConstStrings.password,
+      icon: IconButton(
+        onPressed: _toggleObscure,
+        icon: Icon(isObscure ? CupertinoIcons.eye_slash : CupertinoIcons.eye),
+      ),
+      onChanged: (value) {
+        if (value.isEmpty) {
+          rabbit.resetRabbitState();
+        } else {
+          rabbit.updateRabbitEye(open: isObscure, length: value.length);
+        }
+      },
+      validator: (value) {},
+    );
+  }
+
+  AuthTextfieldWidget _emailField() {
+    return AuthTextfieldWidget(
+      controller: emailController,
+      hint: ConstStrings.email,
+      icon: const Icon(CupertinoIcons.mail),
+      onChanged: (value) {
+        rabbit.updateRabbitEye(open: true, length: value.length);
+      },
+      validator: (value) {},
+    );
+  }
+
+  AuthButtonWidget _loginButton() {
+    return AuthButtonWidget(
+      title: ConstStrings.login,
+      onTap: () {
+        if (formKey.currentState?.validate() ?? false) {
+          rabbit.loginSuccess;
+        } else {
+          rabbit.loginFail;
+        }
+      },
     );
   }
 
@@ -129,7 +142,6 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   void dispose() {
     emailController.dispose();
     passwordController.dispose();
-    passwordFocus.dispose();
     super.dispose();
   }
 }

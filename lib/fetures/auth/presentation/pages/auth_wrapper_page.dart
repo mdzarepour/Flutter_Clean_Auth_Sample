@@ -1,7 +1,7 @@
-import 'package:auth_sample/core/constants/const_colors.dart';
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_ui.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -39,11 +39,16 @@ class AuthWrapperPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: AuthButtonWidget(
+                  child: InkWell(
                     onTap: () {
-                      _navigate(context, AuthLoginPage());
+                      final route = CupertinoPageRoute(
+                        builder: (context) => AuthLoginPage(),
+                      );
+                      Navigator.push(context, route);
                     },
-                    title: ConstStrings.login,
+                    child: AuthButtonUi(
+                      child: Text(style: AppTextTheme.white20bold, 'Login'),
+                    ),
                   ),
                 ),
                 Expanded(

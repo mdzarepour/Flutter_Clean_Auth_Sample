@@ -6,13 +6,18 @@ class AppTheme {
   AppTheme._();
   static ThemeData lightTheme = ThemeData(
     scaffoldBackgroundColor: ConstColors.firstWhite,
-    inputDecorationTheme: InputDecorationThemeData(
+    inputDecorationTheme: _textfieldTheme(),
+  );
+
+  static InputDecorationThemeData _textfieldTheme() {
+    return InputDecorationThemeData(
+      errorStyle: AppTextTheme.grey14normal,
       filled: true,
       fillColor: ConstColors.secondBlue,
       hintStyle: AppTextTheme.grey16normal,
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstGrey),
+        borderSide: BorderSide(width: 2, color: ConstColors.firstBlack),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
@@ -30,6 +35,6 @@ class AppTheme {
         borderRadius: BorderRadius.circular(10),
         borderSide: BorderSide(width: 2, color: ConstColors.firstGrey),
       ),
-    ),
-  );
+    );
+  }
 }

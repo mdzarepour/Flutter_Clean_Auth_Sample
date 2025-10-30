@@ -29,4 +29,9 @@ class AppTextTheme {
     fontWeight: FontWeight.w500,
     fontSize: 16,
   );
+  static final TextStyle grey14normal = GoogleFonts.poppins(
+    color: ConstColors.firstGrey,
+    fontWeight: FontWeight.w500,
+    fontSize: 14,
+  );
 }
