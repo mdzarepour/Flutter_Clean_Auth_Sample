@@ -4,11 +4,10 @@ import 'package:auth_sample/core/constants/const_regexes.dart';
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
-import 'package:auth_sample/fetures/auth/presentation/cubit/auth_cubit.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_widget.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield_widget.dart';
+import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/fetures/home/home_page.dart';
-import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -34,42 +33,37 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocProvider<AuthCubit>(
-        create: (context) => locator.get(),
-        child: BlocListener<AuthCubit, AuthState>(
-          listener: (context, state) {
-            if (state is AuthFail) {
-              ScaffoldMessenger.of(
-                context,
-              ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
-            }
-            if (state is AuthSuccess) {
-              final route = CupertinoPageRoute(
-                builder: (context) => HomePage(),
-              );
-              Navigator.of(context).pushReplacement(route);
-            }
-          },
-          child: Form(
-            key: formKey,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30),
-              child: Column(
-                children: [
-                  const SizedBox(height: 50),
-                  _title(),
-                  const SizedBox(height: 30),
-                  _usernameField(),
-                  const SizedBox(height: 25),
-                  _nameField(),
-                  const SizedBox(height: 25),
-                  _passwordField(),
-                  const SizedBox(height: 25),
-                  _passwordConfirmField(),
-                  const SizedBox(height: 25),
-                  _registerButton(),
-                ],
-              ),
+      body: BlocListener<ButtonCubit, ButtonState>(
+        listener: (context, state) {
+          if (state is ButtonFail) {
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+          }
+          if (state is ButtonSuccess) {
+            final route = CupertinoPageRoute(builder: (context) => HomePage());
+            Navigator.of(context).pushReplacement(route);
+          }
+        },
+        child: Form(
+          key: formKey,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
+            child: Column(
+              children: [
+                const SizedBox(height: 50),
+                _title(),
+                const SizedBox(height: 30),
+                _usernameField(),
+                const SizedBox(height: 25),
+                _nameField(),
+                const SizedBox(height: 25),
+                _passwordField(),
+                const SizedBox(height: 25),
+                _passwordConfirmField(),
+                const SizedBox(height: 25),
+                _registerButton(),
+              ],
             ),
           ),
         ),
@@ -85,8 +79,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthTextfieldWidget _usernameField() {
-    return AuthTextfieldWidget(
+  Widget _usernameField() {
+    return AuthTextfield(
       hint: ConstStrings.username,
       icon: const Icon(CupertinoIcons.person),
       controller: usernameController,
@@ -101,8 +95,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthTextfieldWidget _nameField() {
-    return AuthTextfieldWidget(
+  Widget _nameField() {
+    return AuthTextfield(
       isObscure: false,
       controller: nameController,
       hint: ConstStrings.name,
@@ -118,8 +112,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthTextfieldWidget _passwordField() {
-    return AuthTextfieldWidget(
+  Widget _passwordField() {
+    return AuthTextfield(
       controller: passwordController,
       isObscure: isObscurePass,
       hint: ConstStrings.password,
@@ -144,8 +138,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthTextfieldWidget _passwordConfirmField() {
-    return AuthTextfieldWidget(
+  Widget _passwordConfirmField() {
+    return AuthTextfield(
       controller: passwordConfirmController,
       isObscure: isObscurePassConfirm,
       hint: ConstStrings.passwordConfirm,
@@ -170,12 +164,12 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthButtonWidget _registerButton() {
-    return AuthButtonWidget(
+  AuthCubitButton _registerButton() {
+    return AuthCubitButton(
       title: ConstStrings.register,
       onTap: () async {
         if (formKey.currentState!.validate()) {
-          BlocProvider.of<AuthCubit>(context).execute(
+          BlocProvider.of<ButtonCubit>(context).execute(
             params: RegisterParams(
               username: usernameController.text,
               name: nameController.text,

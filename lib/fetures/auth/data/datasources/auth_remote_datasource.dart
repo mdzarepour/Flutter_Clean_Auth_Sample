@@ -2,13 +2,13 @@ import 'package:auth_sample/core/netword/dio_client.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:dio/dio.dart';
 
-abstract interface class AuthDatasource {
+abstract interface class AuthRemoteDatasource {
   Future<Response> registerUser({required RegisterParams params});
 }
 
-class AuthDatasourceImp implements AuthDatasource {
+class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
   final DioClient dioClient;
-  AuthDatasourceImp({required this.dioClient});
+  AuthRemoteDatasourceImp({required this.dioClient});
 
   @override
   Future<Response> registerUser({required RegisterParams params}) async {

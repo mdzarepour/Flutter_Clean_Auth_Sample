@@ -1,8 +1,7 @@
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_ui.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_widget.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigation_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -39,23 +38,22 @@ class AuthWrapperPage extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: InkWell(
-                    onTap: () {
-                      final route = CupertinoPageRoute(
-                        builder: (context) => AuthLoginPage(),
-                      );
-                      Navigator.push(context, route);
-                    },
-                    child: AuthButtonUi(
-                      child: Text(style: AppTextTheme.white20bold, 'Login'),
-                    ),
+                  child: AuthNavigatioButton(
+                    title: ConstStrings.login,
+                    screen: AuthLoginPage(),
                   ),
                 ),
                 Expanded(
                   child: InkWell(
                     onTap: () => _navigate(context, AuthRegisterPage()),
-                    child: Center(
-                      child: Text(style: AppTextTheme.black20bold, 'Register'),
+                    child: SizedBox(
+                      height: 60,
+                      child: Center(
+                        child: Text(
+                          style: AppTextTheme.black20bold,
+                          'Register',
+                        ),
+                      ),
                     ),
                   ),
                 ),

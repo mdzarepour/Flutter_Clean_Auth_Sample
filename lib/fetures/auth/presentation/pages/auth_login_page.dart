@@ -1,8 +1,8 @@
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_button_widget.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield_widget.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rive/rive.dart';
@@ -87,8 +87,8 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     );
   }
 
-  AuthTextfieldWidget _passwordField() {
-    return AuthTextfieldWidget(
+  Widget _passwordField() {
+    return AuthTextfield(
       controller: passwordController,
       isObscure: isObscure,
       hint: ConstStrings.password,
@@ -103,24 +103,28 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
           rabbit.updateRabbitEye(open: isObscure, length: value.length);
         }
       },
-      validator: (value) {},
+      validator: (value) {
+        return null;
+      },
     );
   }
 
-  AuthTextfieldWidget _emailField() {
-    return AuthTextfieldWidget(
+  Widget _emailField() {
+    return AuthTextfield(
       controller: emailController,
       hint: ConstStrings.email,
       icon: const Icon(CupertinoIcons.mail),
       onChanged: (value) {
         rabbit.updateRabbitEye(open: true, length: value.length);
       },
-      validator: (value) {},
+      validator: (value) {
+        return null;
+      },
     );
   }
 
-  AuthButtonWidget _loginButton() {
-    return AuthButtonWidget(
+  AuthCubitButton _loginButton() {
+    return AuthCubitButton(
       title: ConstStrings.login,
       onTap: () {
         if (formKey.currentState?.validate() ?? false) {
