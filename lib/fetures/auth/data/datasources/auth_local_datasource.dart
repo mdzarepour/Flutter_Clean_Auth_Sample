@@ -3,8 +3,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class AuthLocalDatasource {
   bool isUserLoggedIn();
-  Future<void> removeUserId();
-  Future<void> saveUserId({required String userId});
+  Future<void> removeToken();
+  Future<void> saveToken({required String token});
 }
 
 class AuthLocalDatasourceImp implements AuthLocalDatasource {
@@ -12,24 +12,24 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
   AuthLocalDatasourceImp({required this.sharedPreferences});
 
   @override
-  Future<void> saveUserId({required String userId}) async {
+  Future<void> saveToken({required String token}) async {
     try {
-      await sharedPreferences.setString('USER_ID', userId);
+      await sharedPreferences.setString('token', token);
     } catch (e) {
       throw SharedprefrencesExeption(
-        functionName: 'saveUserId',
+        functionName: 'saveToken',
         message: e.toString(),
       );
     }
   }
 
   @override
-  Future<void> removeUserId() async {
+  Future<void> removeToken() async {
     try {
-      await sharedPreferences.remove('USER_ID');
+      await sharedPreferences.remove('token');
     } catch (e) {
       throw SharedprefrencesExeption(
-        functionName: 'removeUserId',
+        functionName: 'removeToken',
         message: e.toString(),
       );
     }
@@ -38,7 +38,7 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
   @override
   bool isUserLoggedIn() {
     try {
-      String? userId = sharedPreferences.getString('USER_ID');
+      String? userId = sharedPreferences.getString('token');
       if (userId == null || userId.isEmpty) {
         return false;
       } else {

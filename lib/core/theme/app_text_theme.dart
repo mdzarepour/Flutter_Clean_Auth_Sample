@@ -9,6 +9,16 @@ class AppTextTheme {
     fontWeight: FontWeight.w600,
     fontSize: 35,
   );
+  static final TextStyle blue15semibold = GoogleFonts.inter(
+    color: ConstColors.firstBlue,
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+  );
+  static final TextStyle black15semibold = GoogleFonts.inter(
+    color: ConstColors.firstBlack,
+    fontWeight: FontWeight.w500,
+    fontSize: 15,
+  );
   static final TextStyle black15normal = GoogleFonts.poppins(
     color: ConstColors.firstBlack,
     fontWeight: FontWeight.w400,

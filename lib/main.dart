@@ -1,4 +1,3 @@
-import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/core/theme/app_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
@@ -13,6 +12,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //TODO try to using go router
 //TODO manage regexes in utils class and inject them
 //TODO fix push replacement after register success
+//TODO learn how to user Empty params for methods
+//TODO seperate username field from password
+//TODO write navigator link navigations with gorouter
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

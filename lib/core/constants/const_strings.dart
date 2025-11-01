@@ -5,7 +5,6 @@ class ConstStrings {
       'Explore all the existing job roles based on your interest and study major';
   static const String authLoginTitle = 'Login Here';
   static const String authRegisterTitle = 'Register Here';
-  static const String email = 'Email';
   static const String password = 'Passwod';
   static const String passwordConfirm = 'Password Confirm';
   static const String login = 'login';

@@ -7,6 +7,7 @@ class AuthTextfield extends StatelessWidget {
   final Widget icon;
   final bool? isObscure;
   final void Function(String)? onChanged;
+  final FocusNode? focusNode;
   final TextEditingController controller;
   final String? Function(String?)? validator;
 
@@ -14,6 +15,7 @@ class AuthTextfield extends StatelessWidget {
     super.key,
     this.isObscure,
     this.onChanged,
+    this.focusNode,
     required this.validator,
     required this.hint,
     required this.icon,
@@ -27,6 +29,7 @@ class AuthTextfield extends StatelessWidget {
       onChanged: onChanged,
       validator: validator,
       controller: controller,
+      focusNode: focusNode,
       style: AppTextTheme.grey16normal,
       decoration: InputDecoration(
         suffixIconColor: ConstColors.firstGrey,

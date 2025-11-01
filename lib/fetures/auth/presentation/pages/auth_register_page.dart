@@ -5,7 +5,9 @@ import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
+import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/fetures/home/home_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -41,8 +43,11 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
             ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
           }
           if (state is ButtonSuccess) {
-            final route = CupertinoPageRoute(builder: (context) => HomePage());
-            Navigator.of(context).pushReplacement(route);
+            Navigator.pushAndRemoveUntil(
+              context,
+              CupertinoPageRoute(builder: (context) => const AuthLoginPage()),
+              (Route<dynamic> route) => false,
+            );
           }
         },
         child: Form(
@@ -63,11 +68,21 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
                 _passwordConfirmField(),
                 const SizedBox(height: 25),
                 _registerButton(),
+                SizedBox(height: 20),
+                _navigatorLink(),
               ],
             ),
           ),
         ),
       ),
+    );
+  }
+
+  AuthNavigatorLink _navigatorLink() {
+    return AuthNavigatorLink(
+      message: 'Already have an account?',
+      title: 'Login',
+      screen: AuthLoginPage(),
     );
   }
 
@@ -167,9 +182,9 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
   AuthCubitButton _registerButton() {
     return AuthCubitButton(
       title: ConstStrings.register,
-      onTap: () async {
+      onTap: () {
         if (formKey.currentState!.validate()) {
-          BlocProvider.of<ButtonCubit>(context).execute(
+          BlocProvider.of<ButtonCubit>(context).register(
             params: RegisterParams(
               username: usernameController.text,
               name: nameController.text,

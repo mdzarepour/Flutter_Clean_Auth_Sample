@@ -1,10 +1,20 @@
+// ignore_for_file: body_might_complete_normally_nullable
+
+import 'package:auth_sample/core/constants/const_regexes.dart';
 import 'package:auth_sample/core/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
+import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
+import 'package:auth_sample/fetures/auth/presentation/pages/auth_register_page.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_cubit_button.dart';
+import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
+import 'package:auth_sample/fetures/home/home_page.dart';
+import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:rive/rive.dart';
 
 class AuthLoginPage extends StatefulWidget {
@@ -15,14 +25,15 @@ class AuthLoginPage extends StatefulWidget {
 }
 
 class _AuthLoginPageState extends State<AuthLoginPage> {
-  final rabbit = LoginAnimation();
-
-  final formKey = GlobalKey<FormState>();
-
-  final emailController = TextEditingController();
+  final usernameController = TextEditingController();
   final passwordController = TextEditingController();
 
+  final passwordFocusNode = FocusNode();
+
   bool isObscure = true;
+
+  final rabbit = locator.get<LoginAnimation>();
+  final formKey = GlobalKey<FormState>();
 
   Future<void> _initRabbit() async {
     await rabbit.initAnimation();
@@ -31,6 +42,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
 
   void _toggleObscure() {
     setState(() => isObscure = !isObscure);
+    FocusScope.of(context).requestFocus(passwordFocusNode);
     rabbit.updateRabbitEye(
       open: !isObscure,
       length: passwordController.text.length,
@@ -46,25 +58,50 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
       child: Scaffold(
         body: rabbit.artboard == null
             ? const Center(child: CircularProgressIndicator())
-            : Form(
-                key: formKey,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 80),
-                      _title(),
-                      _animation(),
-                      _passwordField(),
-                      const SizedBox(height: 25),
-                      _emailField(),
-                      const SizedBox(height: 25),
-                      _loginButton(),
-                    ],
+            : BlocListener<ButtonCubit, ButtonState>(
+                listener: (context, state) {
+                  if (state is ButtonFail) {
+                    ScaffoldMessenger.of(
+                      context,
+                    ).showSnackBar(SnackBar(content: Text(state.errorMessage)));
+                  }
+                  if (state is ButtonSuccess) {
+                    final route = CupertinoPageRoute(
+                      builder: (context) => HomePage(),
+                    );
+                    Navigator.pushReplacement(context, route);
+                  }
+                },
+                child: Form(
+                  key: formKey,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 80),
+                        _title(),
+                        _animation(),
+                        _usernameField(),
+                        const SizedBox(height: 25),
+                        _passwordField(),
+                        const SizedBox(height: 25),
+                        _loginButton(),
+                        SizedBox(height: 20),
+                        _navigatorLink(),
+                      ],
+                    ),
                   ),
                 ),
               ),
       ),
+    );
+  }
+
+  AuthNavigatorLink _navigatorLink() {
+    return AuthNavigatorLink(
+      message: 'Don\'t have account?',
+      title: 'creata account',
+      screen: AuthRegisterPage(),
     );
   }
 
@@ -90,6 +127,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
   Widget _passwordField() {
     return AuthTextfield(
       controller: passwordController,
+      focusNode: passwordFocusNode,
       isObscure: isObscure,
       hint: ConstStrings.password,
       icon: IconButton(
@@ -100,25 +138,35 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
         if (value.isEmpty) {
           rabbit.resetRabbitState();
         } else {
-          rabbit.updateRabbitEye(open: isObscure, length: value.length);
+          rabbit.updateRabbitEye(open: false, length: value.length);
         }
       },
       validator: (value) {
-        return null;
+        if (value!.isEmpty) {
+          return ConstStrings.passwordEmptyMsg;
+        }
+        if (!ConstRegexes.passwordPattern.hasMatch(value)) {
+          return ConstStrings.passwordMatchMsg;
+        }
       },
     );
   }
 
-  Widget _emailField() {
+  Widget _usernameField() {
     return AuthTextfield(
-      controller: emailController,
-      hint: ConstStrings.email,
-      icon: const Icon(CupertinoIcons.mail),
+      controller: usernameController,
+      hint: ConstStrings.username,
+      icon: const Icon(CupertinoIcons.person),
       onChanged: (value) {
         rabbit.updateRabbitEye(open: true, length: value.length);
       },
       validator: (value) {
-        return null;
+        if (value == null || value.isEmpty) {
+          return ConstStrings.usernameEmptyMsg;
+        }
+        if (!ConstRegexes.usernamePattern.hasMatch(value)) {
+          return ConstStrings.usernameMatchMsg;
+        }
       },
     );
   }
@@ -127,10 +175,13 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     return AuthCubitButton(
       title: ConstStrings.login,
       onTap: () {
-        if (formKey.currentState?.validate() ?? false) {
-          rabbit.loginSuccess;
-        } else {
-          rabbit.loginFail;
+        if (formKey.currentState!.validate()) {
+          BlocProvider.of<ButtonCubit>(context).login(
+            params: LoginParams(
+              identity: usernameController.text,
+              password: passwordController.text,
+            ),
+          );
         }
       },
     );
@@ -144,8 +195,9 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
 
   @override
   void dispose() {
-    emailController.dispose();
+    usernameController.dispose();
     passwordController.dispose();
+    passwordFocusNode.dispose();
     super.dispose();
   }
 }

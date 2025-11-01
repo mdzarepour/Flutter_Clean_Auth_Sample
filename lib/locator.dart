@@ -4,7 +4,9 @@ import 'package:auth_sample/fetures/auth/data/datasources/auth_remote_datasource
 import 'package:auth_sample/fetures/auth/data/repository/auth_repository_imp.dart';
 import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
+import 'package:auth_sample/fetures/auth/domain/usecases/login_user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/register_user.dart';
+import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:dio/dio.dart';
@@ -17,6 +19,9 @@ Future<void> setupLocator() async {
   // External dependencies -->
   final sharedPreferences = await SharedPreferences.getInstance();
   locator.registerLazySingleton<SharedPreferences>(() => sharedPreferences);
+
+  // helper classes -->
+  locator.registerLazySingleton<LoginAnimation>(() => LoginAnimation());
 
   // dio -->
   locator.registerSingleton<Dio>(Dio());
@@ -34,7 +39,7 @@ Future<void> setupLocator() async {
   // repositories -->
   locator.registerLazySingleton<AuthRepository>(
     () => AuthRepositoryImp(
-      authDatasource: locator.get(),
+      authRemoteDatasource: locator.get(),
       authLocalDatasource: locator.get(),
     ),
   );
@@ -44,12 +49,19 @@ Future<void> setupLocator() async {
     () => RegisterUser(authRepository: locator.get()),
   );
 
+  locator.registerLazySingleton(() => LoginUser(authRepository: locator.get()));
+
   locator.registerLazySingleton<CheckLoggin>(
     () => CheckLoggin(authRepository: locator.get()),
   );
 
   // blocs & cubits -->
-  locator.registerFactory(() => ButtonCubit(registerUsecase: locator.get()));
+  locator.registerFactory(
+    () => ButtonCubit(
+      registerUsecase: locator.get(),
+      loginUsecase: locator.get(),
+    ),
+  );
   locator.registerFactory(
     () => ToggleCubit(checkLoggin: locator.get())..toggleAuth(EmptyParams()),
   );
