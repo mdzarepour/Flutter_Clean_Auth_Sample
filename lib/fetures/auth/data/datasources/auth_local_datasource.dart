@@ -16,10 +16,7 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
     try {
       await sharedPreferences.setString('token', token);
     } catch (e) {
-      throw SharedprefrencesExeption(
-        functionName: 'saveToken',
-        message: e.toString(),
-      );
+      throw TokenExeption(functionName: 'saveToken', message: e.toString());
     }
   }
 
@@ -28,10 +25,7 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
     try {
       await sharedPreferences.remove('token');
     } catch (e) {
-      throw SharedprefrencesExeption(
-        functionName: 'removeToken',
-        message: e.toString(),
-      );
+      throw TokenExeption(functionName: 'removeToken', message: e.toString());
     }
   }
 
@@ -45,7 +39,7 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
         return true;
       }
     } catch (e) {
-      throw SharedprefrencesExeption(
+      throw TokenExeption(
         functionName: 'isUserLoggedIn',
         message: e.toString(),
       );

@@ -57,7 +57,7 @@ class AuthRepositoryImp implements AuthRepository {
       await authLocalDatasource.removeToken();
 
       return true;
-    } on SharedprefrencesExeption {
+    } on TokenExeption {
       return false;
     }
   }

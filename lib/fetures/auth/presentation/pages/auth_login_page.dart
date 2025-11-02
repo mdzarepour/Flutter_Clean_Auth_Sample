@@ -61,9 +61,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
             ? const Center(child: CircularProgressIndicator())
             : BlocListener<ButtonCubit, ButtonState>(
                 listener: (context, state) {
-                  if (state is ButtonFail) {
-                    rabbit.fireFail();
-                  }
+                  if (state is ButtonFail) rabbit.fireFail();
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
                     Future.delayed(Duration(seconds: 2), () {

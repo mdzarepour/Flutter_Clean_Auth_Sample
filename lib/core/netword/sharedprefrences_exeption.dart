@@ -1,13 +1,10 @@
 import 'package:logger/logger.dart';
 
-class SharedprefrencesExeption implements Exception {
+class TokenExeption implements Exception {
   final String message;
   final String functionName;
 
-  SharedprefrencesExeption({
-    required this.functionName,
-    required this.message,
-  }) {
+  TokenExeption({required this.functionName, required this.message}) {
     Logger logger = Logger(
       printer: PrettyPrinter(methodCount: 0, colors: true, printEmojis: true),
     );
