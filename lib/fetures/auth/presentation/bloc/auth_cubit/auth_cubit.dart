@@ -10,14 +10,11 @@ class ToggleCubit extends Cubit<AuthState> {
 
   ToggleCubit({required this.checkLoggin}) : super(AuthInitial());
   void toggleAuth(EmptyParams params) {
-    Either either = checkLoggin.call(params: params);
-    either.fold(
-      (notAuthenticated) {
-        emit(NotAuthenticated());
-      },
-      (authenticated) {
-        emit(Authenticated());
-      },
-    );
+    final bool isAuthenticated = checkLoggin.call(params: params);
+    if (isAuthenticated) {
+      emit(Authenticated());
+    } else {
+      emit(NotAuthenticated());
+    }
   }
 }

@@ -9,6 +9,7 @@ abstract interface class AuthLocalDatasource {
 
 class AuthLocalDatasourceImp implements AuthLocalDatasource {
   final SharedPreferences sharedPreferences;
+
   AuthLocalDatasourceImp({required this.sharedPreferences});
 
   @override

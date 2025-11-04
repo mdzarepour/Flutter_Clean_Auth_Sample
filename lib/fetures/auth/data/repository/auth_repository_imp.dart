@@ -1,8 +1,10 @@
 import 'package:auth_sample/core/netword/sharedprefrences_exeption.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_local_datasource.dart';
 import 'package:auth_sample/fetures/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
+import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
+import 'package:auth_sample/fetures/auth/data/models/user_model.dart';
+import 'package:auth_sample/fetures/auth/domain/entities/user.dart';
 import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -39,10 +41,10 @@ class AuthRepositoryImp implements AuthRepository {
         params: params,
       );
       if (response.statusCode == 200) {
-        final String token = response.data['token'];
-        await authLocalDatasource.saveToken(token: token);
-
-        return right(response);
+        final UserModel userModel = UserModel.fromJson(map: response.data);
+        final User user = userModel.toEntity();
+        await authLocalDatasource.saveToken(token: user.token);
+        return right(userModel);
       } else {
         return left(response.data['message']);
       }
@@ -55,7 +57,6 @@ class AuthRepositoryImp implements AuthRepository {
   Future<bool> logoutUser() async {
     try {
       await authLocalDatasource.removeToken();
-
       return true;
     } on TokenExeption {
       return false;
@@ -63,12 +64,12 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  Either<bool, bool> isUserLoggedIn() {
+  bool isUserLoggedIn() {
     final bool isUserLoggedIn = authLocalDatasource.isUserLoggedIn();
     if (isUserLoggedIn) {
-      return right(true);
+      return true;
     } else {
-      return left(false);
+      return false;
     }
   }
 }

@@ -13,7 +13,7 @@ class RegexService {
     required final RegexType regexType,
   }) {
     if (regexType == RegexType.password) {
-      if (passwordPattern.hasMatch(value!)) {
+      if (!passwordPattern.hasMatch(value!)) {
         return ConstStrings.passwordMatchMsg;
       }
       if (value.isEmpty) {
@@ -21,7 +21,7 @@ class RegexService {
       }
     }
     if (regexType == RegexType.username) {
-      if (usernamePattern.hasMatch(value!)) {
+      if (!usernamePattern.hasMatch(value!)) {
         return ConstStrings.usernameMatchMsg;
       }
       if (value.isEmpty) {

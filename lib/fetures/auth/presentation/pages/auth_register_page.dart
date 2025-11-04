@@ -1,11 +1,11 @@
 // ignore_for_file: body_might_complete_normally_nullable
+import 'package:auth_sample/common/widgets/cubit_button.dart';
 import 'package:auth_sample/core/utils/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
-import 'package:auth_sample/core/utils/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/locator.dart';
@@ -73,7 +73,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthNavigatorLink _navigatorLink() {
+  Widget _navigatorLink() {
     return AuthNavigatorLink(
       message: 'Already have an account?',
       title: 'Login',
@@ -157,7 +157,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  AuthCubitButton _registerButton() {
+  Widget _registerButton() {
     return AuthCubitButton(
       title: ConstStrings.register,
       onTap: () {

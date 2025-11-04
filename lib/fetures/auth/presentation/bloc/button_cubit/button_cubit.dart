@@ -1,11 +1,13 @@
 import 'package:auth_sample/core/utils/services/snackbar_service.dart';
-import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
+import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
+import 'package:auth_sample/fetures/auth/domain/entities/user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/login_user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/logout_user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/register_user.dart';
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 part 'button_state.dart';
@@ -41,15 +43,15 @@ class ButtonCubit extends Cubit<ButtonState> {
 
   Future<void> login({required LoginParams params}) async {
     emit(ButtonLoading());
-    final either = await loginUserUsecase.call(params: params);
+    final Either either = await loginUserUsecase.call(params: params);
     either.fold(
       (message) {
         emit(ButtonFail());
         snackbarService.showSnackbar(message: message);
         emit(ButtonInitial());
       },
-      (loginModel) {
-        emit(ButtonSuccess());
+      (user) {
+        emit(ButtonSuccess(user: user));
         emit(ButtonInitial());
       },
     );
@@ -61,9 +63,11 @@ class ButtonCubit extends Cubit<ButtonState> {
     if (status) {
       Future.delayed(Duration(milliseconds: 1500), () {
         emit(ButtonSuccess());
+        emit(ButtonInitial());
       });
     } else {
       emit(ButtonFail());
+      emit(ButtonInitial());
     }
   }
 }

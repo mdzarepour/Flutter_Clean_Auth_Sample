@@ -1,13 +1,12 @@
 // ignore_for_file: body_might_complete_normally_nullable
-
+import 'package:auth_sample/common/widgets/cubit_button.dart';
 import 'package:auth_sample/core/utils/constants/const_strings.dart';
 import 'package:auth_sample/core/theme/app_text_theme.dart';
 import 'package:auth_sample/core/utils/services/regex_service.dart';
-import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
+import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/pages/auth_register_page.dart';
-import 'package:auth_sample/core/utils/widgets/cubit_button.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
 import 'package:auth_sample/fetures/home/home_page.dart';
@@ -66,7 +65,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                     rabbit.fireSuccess();
                     Future.delayed(Duration(seconds: 2), () {
                       final route = CupertinoPageRoute(
-                        builder: (context) => HomePage(),
+                        builder: (context) => HomePage(user: state.user),
                       );
                       Navigator.pushReplacement(context, route);
                     });
@@ -97,7 +96,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     );
   }
 
-  AuthNavigatorLink _navigatorLink() {
+  Widget _navigatorLink() {
     return AuthNavigatorLink(
       message: 'Don\'t have account?',
       title: 'creata account',
@@ -105,7 +104,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     );
   }
 
-  Text _title() {
+  Widget _title() {
     return Text(
       textAlign: TextAlign.center,
       ConstStrings.authLoginTitle,
@@ -165,11 +164,12 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     );
   }
 
-  AuthCubitButton _loginButton() {
+  Widget _loginButton() {
     return AuthCubitButton(
       title: ConstStrings.login,
       onTap: () {
         if (formKey.currentState!.validate()) {
+          rabbit.resetRabbitState();
           BlocProvider.of<ButtonCubit>(context).login(
             params: LoginParams(
               identity: usernameController.text,

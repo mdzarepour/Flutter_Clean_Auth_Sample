@@ -1,5 +1,5 @@
 import 'package:auth_sample/core/netword/dio_client.dart';
-import 'package:auth_sample/fetures/auth/data/models/login_model.dart';
+import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
 import 'package:auth_sample/fetures/auth/data/models/register_params.dart';
 import 'package:dio/dio.dart';
 
@@ -32,7 +32,6 @@ class AuthRemoteDatasourceImp implements AuthRemoteDatasource {
         'collections/users/auth-with-password',
         data: params.toMap(),
       );
-      print('datasource yes');
       return response;
     } on DioException {
       rethrow;
