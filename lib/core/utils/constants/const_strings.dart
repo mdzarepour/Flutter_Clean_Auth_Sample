@@ -1,11 +1,11 @@
 class ConstStrings {
   ConstStrings._();
-  static const String authWrapperTitle = 'Discover Your Dream Job here';
+  static const String authWrapperTitle = 'Stay At Work And Care Your Pet';
   static const String authWrapperMessage =
-      'Explore all the existing job roles based on your interest and study major';
+      'Explore all categories and find your favorite by filtering';
   static const String authLoginTitle = 'Login Here';
   static const String authRegisterTitle = 'Register Here';
-  static const String password = 'Passwod';
+  static const String password = 'Password';
   static const String passwordConfirm = 'Password Confirm';
   static const String login = 'login';
   static const String name = 'name';
