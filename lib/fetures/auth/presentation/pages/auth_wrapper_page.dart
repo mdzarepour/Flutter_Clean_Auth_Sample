@@ -1,12 +1,10 @@
+import 'package:auth_sample/common/router/route_names.dart';
+import 'package:auth_sample/core/utils/constants/const_colors.dart';
 import 'package:auth_sample/core/utils/constants/const_strings.dart';
-import 'package:auth_sample/core/theme/app_text_theme.dart';
-import 'package:auth_sample/fetures/auth/presentation/pages/auth_login_page.dart';
-import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigation_button.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:auth_sample/common/theme/app_text_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
-import 'auth_register_page.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthWrapperPage extends StatelessWidget {
   const AuthWrapperPage({super.key});
@@ -35,22 +33,49 @@ class AuthWrapperPage extends StatelessWidget {
             ),
             SizedBox(height: 80),
             Row(
+              spacing: 10,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Expanded(
-                  child: AuthNavigatioButton(
-                    title: ConstStrings.login,
-                    screen: AuthLoginPage(),
+                  child: InkWell(
+                    onTap: () => (context).push(RouteNames.loginRoute),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: ConstColors.firstBlue,
+                          width: 2,
+                        ),
+                      ),
+                      height: 60,
+                      child: Center(
+                        child: Text(
+                          style: AppTextTheme.blue15semibold.copyWith(
+                            fontSize: 20,
+                          ),
+                          'Login',
+                        ),
+                      ),
+                    ),
                   ),
                 ),
                 Expanded(
                   child: InkWell(
-                    onTap: () => _navigate(context, AuthRegisterPage()),
-                    child: SizedBox(
+                    onTap: () => (context).push(RouteNames.registerRoute),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(
+                          color: ConstColors.firstBlue,
+                          width: 2,
+                        ),
+                      ),
                       height: 60,
                       child: Center(
                         child: Text(
-                          style: AppTextTheme.black20bold,
+                          style: AppTextTheme.blue15semibold.copyWith(
+                            fontSize: 20,
+                          ),
                           'Register',
                         ),
                       ),
@@ -63,10 +88,5 @@ class AuthWrapperPage extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  void _navigate(BuildContext context, Widget screen) async {
-    final route = CupertinoPageRoute(builder: (_) => screen);
-    Navigator.push(context, route);
   }
 }

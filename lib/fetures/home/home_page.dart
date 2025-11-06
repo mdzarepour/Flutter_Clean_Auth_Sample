@@ -1,5 +1,6 @@
+import 'package:auth_sample/common/router/route_names.dart';
 import 'package:auth_sample/common/widgets/cubit_button.dart';
-import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/common/theme/app_text_theme.dart';
 import 'package:auth_sample/fetures/auth/domain/entities/user.dart';
 import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
@@ -7,6 +8,7 @@ import 'package:auth_sample/fetures/auth/presentation/pages/auth_wrapper_page.da
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatelessWidget {
   final User? user;
@@ -16,12 +18,8 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
-          if (state is ButtonFail) {
-          } else if (state is ButtonSuccess) {
-            final route = CupertinoPageRoute(
-              builder: (context) => AuthWrapperPage(),
-            );
-            Navigator.pushReplacement(context, route);
+          if (state is ButtonSuccess) {
+            context.pushReplacement(RouteNames.wrapperRouter);
           }
         },
         child: Padding(

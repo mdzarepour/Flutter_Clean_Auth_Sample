@@ -1,26 +1,24 @@
-import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/common/theme/app_text_theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthNavigatorLink extends StatelessWidget {
   final String message;
   final String title;
-  final Widget screen;
+  final String route;
 
   const AuthNavigatorLink({
     super.key,
     required this.message,
     required this.title,
-    required this.screen,
+    required this.route,
   });
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {
-        final route = CupertinoPageRoute(builder: (context) => screen);
-        Navigator.push(context, route);
-      },
+      onTap: () => context.push(route),
       child: Row(
         spacing: 8,
         mainAxisAlignment: MainAxisAlignment.center,

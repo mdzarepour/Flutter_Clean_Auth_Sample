@@ -1,3 +1,4 @@
+import 'package:auth_sample/common/router/router.dart';
 import 'package:auth_sample/core/netword/dio_client.dart';
 import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/core/utils/services/snackbar_service.dart';
@@ -14,6 +15,7 @@ import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 final locator = GetIt.instance;
@@ -27,6 +29,12 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<LoginAnimation>(() => LoginAnimation());
   locator.registerLazySingleton<SnackbarService>(() => SnackbarService());
   locator.registerLazySingleton<RegexService>(() => RegexService());
+  locator.registerLazySingleton<GoRouter>(
+    () => AppRouter(
+      snackbarService: locator.get(),
+      authCubit: locator.get(),
+    ).router,
+  );
 
   // dio -->
   locator.registerSingleton<Dio>(Dio());
@@ -74,6 +82,6 @@ Future<void> setupLocator() async {
     ),
   );
   locator.registerFactory(
-    () => ToggleCubit(checkLoggin: locator.get())..toggleAuth(EmptyParams()),
+    () => AuthCubit(checkLoggin: locator.get())..toggleAuth(EmptyParams()),
   );
 }

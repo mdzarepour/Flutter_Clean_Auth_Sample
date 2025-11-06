@@ -1,6 +1,5 @@
 import 'package:auth_sample/core/usecase/usecase.dart';
 import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
-import 'package:dartz/dartz.dart';
 
 class CheckLoggin implements Usecase<bool, EmptyParams> {
   final AuthRepository authRepository;

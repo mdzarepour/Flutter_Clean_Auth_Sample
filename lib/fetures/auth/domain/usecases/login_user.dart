@@ -1,6 +1,5 @@
 import 'package:auth_sample/core/usecase/usecase.dart';
 import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
-import 'package:auth_sample/fetures/auth/domain/entities/user.dart';
 import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
 import 'package:dartz/dartz.dart';
 

@@ -1,12 +1,11 @@
-import 'package:auth_sample/core/theme/app_theme.dart';
-import 'package:auth_sample/core/utils/services/snackbar_service.dart';
+import 'package:auth_sample/common/router/router.dart';
+import 'package:auth_sample/common/theme/app_theme.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
-import 'package:auth_sample/fetures/auth/presentation/pages/auth_wrapper_page.dart';
-import 'package:auth_sample/fetures/home/home_page.dart';
 import 'package:auth_sample/locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 //TODO manage login animation injection
 //TODO save urls in better way
@@ -18,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 //TODO write navigator link navigations with gorouter
 //TODO wrte registerpage obscure toggle in single method
 //TODO manage snackbars in a contextless way
+//TODO move themes to common directorie
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -32,23 +32,12 @@ class Application extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ButtonCubit>(create: (context) => locator.get()),
-        BlocProvider<ToggleCubit>(create: (context) => locator.get()),
+        BlocProvider<AuthCubit>(create: (context) => locator.get()),
       ],
-      child: MaterialApp(
+      child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
         theme: AppTheme.lightTheme,
-        navigatorKey: locator.get<SnackbarService>().navigatorKey,
-        home: BlocBuilder<ToggleCubit, AuthState>(
-          builder: (context, state) {
-            if (state is Authenticated) {
-              return HomePage();
-            }
-            if (state is NotAuthenticated) {
-              return AuthWrapperPage();
-            }
-            return SizedBox.shrink();
-          },
-        ),
+        routerConfig: locator.get<GoRouter>(),
       ),
     );
   }

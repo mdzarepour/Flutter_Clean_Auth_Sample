@@ -1,19 +1,18 @@
-// ignore_for_file: body_might_complete_normally_nullable
+import 'package:auth_sample/common/router/route_names.dart';
 import 'package:auth_sample/common/widgets/cubit_button.dart';
 import 'package:auth_sample/core/utils/constants/const_strings.dart';
-import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/common/theme/app_text_theme.dart';
 import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/fetures/auth/data/models/login_params.dart';
 import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
-import 'package:auth_sample/fetures/auth/presentation/pages/auth_register_page.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_navigator_link.dart';
 import 'package:auth_sample/fetures/auth/presentation/widgets/auth_textfield.dart';
-import 'package:auth_sample/fetures/home/home_page.dart';
 import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
 class AuthLoginPage extends StatefulWidget {
@@ -63,12 +62,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   if (state is ButtonFail) rabbit.fireFail();
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
-                    Future.delayed(Duration(seconds: 2), () {
-                      final route = CupertinoPageRoute(
-                        builder: (context) => HomePage(user: state.user),
-                      );
-                      Navigator.pushReplacement(context, route);
-                    });
+                    context.push(RouteNames.homeRoute);
                   }
                 },
                 child: Form(
@@ -100,7 +94,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     return AuthNavigatorLink(
       message: 'Don\'t have account?',
       title: 'creata account',
-      screen: AuthRegisterPage(),
+      route: RouteNames.registerRoute,
     );
   }
 

@@ -44,7 +44,7 @@ class AuthRepositoryImp implements AuthRepository {
         final UserModel userModel = UserModel.fromJson(map: response.data);
         final User user = userModel.toEntity();
         await authLocalDatasource.saveToken(token: user.token);
-        return right(userModel);
+        return right(user);
       } else {
         return left(response.data['message']);
       }

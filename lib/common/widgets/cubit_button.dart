@@ -1,4 +1,4 @@
-import 'package:auth_sample/core/theme/app_text_theme.dart';
+import 'package:auth_sample/common/theme/app_text_theme.dart';
 import 'package:auth_sample/core/utils/constants/const_colors.dart';
 import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:flutter/material.dart';
