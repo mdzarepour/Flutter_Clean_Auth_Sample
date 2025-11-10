@@ -1,18 +1,19 @@
 import 'package:auth_sample/common/router/router.dart';
 import 'package:auth_sample/core/netword/dio_client.dart';
+import 'package:auth_sample/core/usecase/usecase.dart';
 import 'package:auth_sample/core/utils/services/regex_service.dart';
 import 'package:auth_sample/core/utils/services/snackbar_service.dart';
-import 'package:auth_sample/fetures/auth/data/datasources/auth_local_datasource.dart';
-import 'package:auth_sample/fetures/auth/data/datasources/auth_remote_datasource.dart';
-import 'package:auth_sample/fetures/auth/data/repository/auth_repository_imp.dart';
-import 'package:auth_sample/fetures/auth/domain/repository/auth_repository.dart';
-import 'package:auth_sample/fetures/auth/domain/usecases/check_loggin.dart';
-import 'package:auth_sample/fetures/auth/domain/usecases/login_user.dart';
-import 'package:auth_sample/fetures/auth/domain/usecases/logout_user.dart';
-import 'package:auth_sample/fetures/auth/domain/usecases/register_user.dart';
-import 'package:auth_sample/fetures/auth/presentation/animations/login_animation.dart';
-import 'package:auth_sample/fetures/auth/presentation/bloc/auth_cubit/auth_cubit.dart';
-import 'package:auth_sample/fetures/auth/presentation/bloc/button_cubit/button_cubit.dart';
+import 'package:auth_sample/features/auth/data/datasources/auth_local_datasource.dart';
+import 'package:auth_sample/features/auth/data/datasources/auth_remote_datasource.dart';
+import 'package:auth_sample/features/auth/data/repository/auth_repository_imp.dart';
+import 'package:auth_sample/features/auth/domain/repository/auth_repository.dart';
+import 'package:auth_sample/features/auth/domain/usecases/check_loggin.dart';
+import 'package:auth_sample/features/auth/domain/usecases/login_user.dart';
+import 'package:auth_sample/features/auth/domain/usecases/logout_user.dart';
+import 'package:auth_sample/features/auth/domain/usecases/register_user.dart';
+import 'package:auth_sample/features/auth/presentation/animations/login_animation.dart';
+import 'package:auth_sample/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
+import 'package:auth_sample/features/auth/presentation/bloc/button_cubit/button_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
@@ -32,7 +33,7 @@ Future<void> setupLocator() async {
   locator.registerLazySingleton<GoRouter>(
     () => AppRouter(
       snackbarService: locator.get(),
-      authCubit: locator.get(),
+      authBloc: locator.get(),
     ).router,
   );
 
@@ -81,7 +82,9 @@ Future<void> setupLocator() async {
       logoutUserUsecase: locator.get(),
     ),
   );
-  locator.registerFactory(
-    () => AuthCubit(checkLoggin: locator.get())..toggleAuth(EmptyParams()),
-  );
+
+  locator.registerFactory(() {
+    return AuthBloc(checkLoggin: locator.get())
+      ..add(ToggleAuthState(emptyParams: EmptyParams()));
+  });
 }

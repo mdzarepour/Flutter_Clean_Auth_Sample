@@ -17,23 +17,23 @@ class AppTheme {
       hintStyle: AppTextTheme.grey16normal,
       errorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstBlack),
+        borderSide: const BorderSide(width: 2, color: ConstColors.firstBlack),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstBlue),
+        borderSide: const BorderSide(width: 2, color: ConstColors.firstBlue),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstBlue),
+        borderSide: const BorderSide(width: 2, color: ConstColors.firstBlue),
       ),
       disabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstBlue),
+        borderSide: const BorderSide(width: 2, color: ConstColors.firstBlue),
       ),
       focusedErrorBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(10),
-        borderSide: BorderSide(width: 2, color: ConstColors.firstGrey),
+        borderSide: const BorderSide(width: 2, color: ConstColors.firstGrey),
       ),
     );
   }
