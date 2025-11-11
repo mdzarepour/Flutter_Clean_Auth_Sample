@@ -7,8 +7,9 @@ A Flutter authentication sample project built using Clean Architecture, BLoC sta
 <img width="300"  alt="Screenshot_1752949100" src="https://github.com/user-attachments/assets/2a20994e-4670-45cd-9c08-0d83ceb5a499" />
 <img width="300"  alt="Screenshot_1752949100" src="https://github.com/user-attachments/assets/b31a17cc-c905-46a6-abc6-902f21a79982" />
 <img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/aabba16f-b701-4da7-bb8e-7320021e257a" />
-<img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/a7296f70-12c6-4295-ae61-6fee5970b768" />
+<img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/1b16a5b0-9d4f-41e2-9d9f-18715a1bd690" />
 </p>
+
 
 
 
