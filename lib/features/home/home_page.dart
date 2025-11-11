@@ -16,7 +16,8 @@ class HomePage extends StatelessWidget {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            context.go(RouteNames.wrapperRouter);
+            print('we are in home and redirecting to wrapper ');
+            context.go(RouteNames.wrapperRouter, extra: RouteNames.homeRoute);
           }
         },
         child: Padding(

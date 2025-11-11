@@ -11,6 +11,7 @@ import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 class AuthRegisterPage extends StatefulWidget {
   const AuthRegisterPage({super.key});
@@ -37,7 +38,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            //  context.pushReplacement(RouteNames.loginRoute);
+            context.push(RouteNames.loginRoute);
           }
         },
         child: Form(
@@ -46,9 +47,9 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
               children: [
-                const SizedBox(height: 50),
+                const SizedBox(height: 80),
                 _title(),
-                const SizedBox(height: 30),
+                const SizedBox(height: 35),
                 _usernameField(),
                 const SizedBox(height: 25),
                 _nameField(),
@@ -76,7 +77,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  Text _title() {
+  Widget _title() {
     return Text(
       textAlign: TextAlign.center,
       ConstStrings.authRegisterTitle,
@@ -113,7 +114,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       isObscure: isObscurePass,
       hint: ConstStrings.password,
       icon: IconButton(
-        onPressed: () {},
+        onPressed: () => _toggleisObscure(false),
         icon: Icon(
           isObscurePass ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
         ),
@@ -130,7 +131,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       isObscure: isObscurePassConfirm,
       hint: ConstStrings.passwordConfirm,
       icon: IconButton(
-        onPressed: () {},
+        onPressed: () => _toggleisObscure(true),
         icon: Icon(
           isObscurePassConfirm ? CupertinoIcons.eye_slash : CupertinoIcons.eye,
         ),
@@ -162,12 +163,11 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
     );
   }
 
-  void toggleisObscure(bool isPassConfirm) {
+  void _toggleisObscure(bool isPassConfirm) {
     setState(() {
       if (isPassConfirm) {
         isObscurePassConfirm = !isObscurePassConfirm;
-      }
-      if (!isObscurePass) {
+      } else {
         isObscurePass = !isObscurePass;
       }
     });

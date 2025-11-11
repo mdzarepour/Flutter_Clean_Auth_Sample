@@ -107,7 +107,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
     );
   }
 
-  SizedBox _animation() {
+  Widget _animation() {
     return SizedBox(
       height: 200,
       child: Rive(

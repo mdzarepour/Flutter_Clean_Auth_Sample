@@ -28,12 +28,19 @@ class AppRouter {
           return const CupertinoPage(child: AuthWrapperPage());
         },
         redirect: (context, state) {
+          final String previousRoute = state.extra as String? ?? 'null';
+
           if (authBloc.state is Authenticated) {
-            return RouteNames.homeRoute;
+            if (previousRoute.contains(RouteNames.homeRoute)) {
+              return RouteNames.wrapperRouter;
+            } else {
+              return RouteNames.homeRoute;
+            }
           }
           if (authBloc.state is NotAuthenticated) {
             return RouteNames.wrapperRouter;
           }
+          return null;
         },
       ),
       GoRoute(
@@ -61,12 +68,3 @@ class AppRouter {
     ],
   );
 }
-
-
-
-
-
-
-
-// masdoshane
-// 5679593262mM@
