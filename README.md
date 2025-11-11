@@ -7,8 +7,9 @@ A Flutter authentication sample project built using Clean Architecture, BLoC sta
 <img width="300"  alt="Screenshot_1752949100" src="https://github.com/user-attachments/assets/2a20994e-4670-45cd-9c08-0d83ceb5a499" />
 <img width="300"  alt="Screenshot_1752949100" src="https://github.com/user-attachments/assets/b31a17cc-c905-46a6-abc6-902f21a79982" />
 <img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/aabba16f-b701-4da7-bb8e-7320021e257a" />
-<img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/692bb49c-8500-4cb2-91b3-b34581349df8" />
+<img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/230b1da4-e8d2-47f7-9413-11104709f537" />
 </p>
+
 
 
 ## how to test ?
@@ -33,5 +34,6 @@ used package in MovieApp :
 *  Share Preferences : `shared_preferences: ^2.5.3`
 *  Logger : `logger: ^2.6.2`
 *  Rive : `rive: ^0.13.20`
+*  Go Router : `go_router: ^17.0.0`
 
 
