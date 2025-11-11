@@ -16,7 +16,6 @@ class HomePage extends StatelessWidget {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            print('we are in home and redirecting to wrapper ');
             context.go(RouteNames.wrapperRouter, extra: RouteNames.homeRoute);
           }
         },
@@ -27,7 +26,7 @@ class HomePage extends StatelessWidget {
                   spacing: 20,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text('null information'),
+                    const Text('user not saved locally please log in again'),
                     AuthCubitButton(
                       title: 'Log Out',
                       onTap: () {

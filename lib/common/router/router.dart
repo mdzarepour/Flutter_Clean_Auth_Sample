@@ -1,5 +1,6 @@
 import 'package:auth_sample/common/router/route_names.dart';
 import 'package:auth_sample/common/router/router_stream.dart';
+import 'package:auth_sample/common/widgets/app_exit_wrapper_.dart';
 import 'package:auth_sample/core/utils/services/snackbar_service.dart';
 import 'package:auth_sample/features/auth/domain/entities/user.dart';
 import 'package:auth_sample/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -25,7 +26,9 @@ class AppRouter {
       GoRoute(
         path: RouteNames.wrapperRouter,
         pageBuilder: (context, state) {
-          return const CupertinoPage(child: AuthWrapperPage());
+          return const CupertinoPage(
+            child: AppExitWrapper(child: AuthWrapperPage()),
+          );
         },
         redirect: (context, state) {
           final String previousRoute = state.extra as String? ?? 'null';
@@ -46,13 +49,17 @@ class AppRouter {
       GoRoute(
         path: RouteNames.loginRoute,
         pageBuilder: (context, state) {
-          return const CupertinoPage(child: AuthLoginPage());
+          return const CupertinoPage(
+            child: AppExitWrapper(child: AuthLoginPage()),
+          );
         },
       ),
       GoRoute(
         path: RouteNames.registerRoute,
         pageBuilder: (context, state) {
-          return const CupertinoPage(child: AuthRegisterPage());
+          return const CupertinoPage(
+            child: AppExitWrapper(child: AuthRegisterPage()),
+          );
         },
       ),
       GoRoute(
@@ -60,9 +67,11 @@ class AppRouter {
         pageBuilder: (context, state) {
           if (state.extra != null && state.extra is User) {
             final user = state.extra as User;
-            return CupertinoPage(child: HomePage(user: user));
+            return CupertinoPage(
+              child: AppExitWrapper(child: HomePage(user: user)),
+            );
           }
-          return const CupertinoPage(child: HomePage());
+          return const CupertinoPage(child: AppExitWrapper(child: HomePage()));
         },
       ),
     ],

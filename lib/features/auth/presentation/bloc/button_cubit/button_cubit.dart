@@ -17,14 +17,12 @@ class ButtonCubit extends Cubit<ButtonState> {
   final LoginUser loginUserUsecase;
   final LogoutUser logoutUserUsecase;
   final SnackbarService snackbarService;
-  final AuthBloc authBloc;
 
   ButtonCubit({
     required this.registerUserUsecase,
     required this.loginUserUsecase,
     required this.logoutUserUsecase,
     required this.snackbarService,
-    required this.authBloc,
   }) : super(ButtonInitial());
 
   Future<void> register({required RegisterParams params}) async {
@@ -52,9 +50,8 @@ class ButtonCubit extends Cubit<ButtonState> {
         snackbarService.showSnackbar(message: message);
         emit(ButtonInitial());
       },
-      (user) {
+      (user) async {
         emit(ButtonSuccess(user: user));
-        authBloc.add(ToggleAuthState(emptyParams: NoParams()));
         emit(ButtonInitial());
       },
     );
@@ -66,7 +63,6 @@ class ButtonCubit extends Cubit<ButtonState> {
     if (status) {
       await Future.delayed(const Duration(milliseconds: 1500));
       emit(ButtonSuccess());
-      authBloc.add(ToggleAuthState(emptyParams: NoParams()));
       emit(ButtonInitial());
     } else {
       emit(ButtonFail());

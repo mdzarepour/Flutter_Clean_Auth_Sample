@@ -80,7 +80,6 @@ Future<void> setupLocator() async {
       registerUserUsecase: locator.get(),
       loginUserUsecase: locator.get(),
       logoutUserUsecase: locator.get(),
-      authBloc: locator.get(),
     ),
   );
 

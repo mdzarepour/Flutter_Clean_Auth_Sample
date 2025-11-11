@@ -12,7 +12,6 @@ import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
 class AuthLoginPage extends StatefulWidget {
@@ -59,11 +58,12 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
             ? const Center(child: CircularProgressIndicator())
             : BlocListener<ButtonCubit, ButtonState>(
                 listener: (context, state) async {
-                  if (state is ButtonFail) rabbit.fireFail();
+                  if (state is ButtonFail) {
+                    rabbit.fireFail();
+                  }
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
-                    await Future.delayed(const Duration(milliseconds: 2800));
-                    context.go(RouteNames.homeRoute, extra: state.user);
+                    await Future.delayed(const Duration(seconds: 2));
                   }
                 },
                 child: Form(
