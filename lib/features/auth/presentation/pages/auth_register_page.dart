@@ -38,7 +38,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            context.push(RouteNames.loginRoute);
+            context.go(RouteNames.loginRoute);
           }
         },
         child: Form(

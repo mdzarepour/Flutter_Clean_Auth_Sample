@@ -12,6 +12,7 @@ import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:rive/rive.dart';
 
 class AuthLoginPage extends StatefulWidget {
@@ -63,7 +64,8 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   }
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
-                    await Future.delayed(const Duration(seconds: 2));
+                    await Future.delayed(const Duration(milliseconds: 2800));
+                    context.go(RouteNames.homeRoute, extra: state.user);
                   }
                 },
                 child: Form(

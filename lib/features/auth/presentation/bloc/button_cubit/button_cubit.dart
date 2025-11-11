@@ -6,7 +6,6 @@ import 'package:auth_sample/features/auth/domain/entities/user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/login_user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/logout_user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/register_user.dart';
-import 'package:auth_sample/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:meta/meta.dart';
 

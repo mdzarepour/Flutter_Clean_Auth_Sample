@@ -1,6 +1,6 @@
 import 'package:auth_sample/common/router/route_names.dart';
 import 'package:auth_sample/common/router/router_stream.dart';
-import 'package:auth_sample/common/widgets/app_exit_wrapper_.dart';
+import 'package:auth_sample/common/widgets/exit_wrapper_.dart';
 import 'package:auth_sample/core/utils/services/snackbar_service.dart';
 import 'package:auth_sample/features/auth/domain/entities/user.dart';
 import 'package:auth_sample/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
@@ -27,11 +27,11 @@ class AppRouter {
         path: RouteNames.wrapperRouter,
         pageBuilder: (context, state) {
           return const CupertinoPage(
-            child: AppExitWrapper(child: AuthWrapperPage()),
+            child: ExitWrapper(child: AuthWrapperPage()),
           );
         },
         redirect: (context, state) {
-          final String previousRoute = state.extra as String? ?? 'null';
+          final String previousRoute = state.extra as String? ?? '';
 
           if (authBloc.state is Authenticated) {
             if (previousRoute.contains(RouteNames.homeRoute)) {
@@ -50,7 +50,7 @@ class AppRouter {
         path: RouteNames.loginRoute,
         pageBuilder: (context, state) {
           return const CupertinoPage(
-            child: AppExitWrapper(child: AuthLoginPage()),
+            child: ExitWrapper(child: AuthLoginPage()),
           );
         },
       ),
@@ -58,7 +58,7 @@ class AppRouter {
         path: RouteNames.registerRoute,
         pageBuilder: (context, state) {
           return const CupertinoPage(
-            child: AppExitWrapper(child: AuthRegisterPage()),
+            child: ExitWrapper(child: AuthRegisterPage()),
           );
         },
       ),
@@ -68,10 +68,10 @@ class AppRouter {
           if (state.extra != null && state.extra is User) {
             final user = state.extra as User;
             return CupertinoPage(
-              child: AppExitWrapper(child: HomePage(user: user)),
+              child: ExitWrapper(child: HomePage(user: user)),
             );
           }
-          return const CupertinoPage(child: AppExitWrapper(child: HomePage()));
+          return const CupertinoPage(child: ExitWrapper(child: HomePage()));
         },
       ),
     ],
