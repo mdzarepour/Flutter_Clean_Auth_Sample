@@ -9,6 +9,8 @@ A Flutter authentication sample project built using Clean Architecture, BLoC sta
 <img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/aabba16f-b701-4da7-bb8e-7320021e257a" />
 <img width="300"  alt="Screenshot_1752949100"  src="https://github.com/user-attachments/assets/692bb49c-8500-4cb2-91b3-b34581349df8" />
 </p>
+
+
 ## how to test ?
 add remote or download source then :
 ```bash
@@ -21,6 +23,7 @@ flutter pub upgrade
 flutter run
 ```
 <hr>
+
 used package in MovieApp :
 *  Google Fonts :  `google_fonts: ^6.2.1`
 *  Get it : `get_it: ^8.2.0`
