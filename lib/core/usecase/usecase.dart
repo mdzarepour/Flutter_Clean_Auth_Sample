@@ -2,4 +2,4 @@ abstract interface class Usecase<ReturnType, Params> {
   ReturnType call({required Params params});
 }
 
-class EmptyParams {}
+class NoParams {}

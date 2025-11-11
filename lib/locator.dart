@@ -80,11 +80,12 @@ Future<void> setupLocator() async {
       registerUserUsecase: locator.get(),
       loginUserUsecase: locator.get(),
       logoutUserUsecase: locator.get(),
+      authBloc: locator.get(),
     ),
   );
 
   locator.registerFactory(() {
     return AuthBloc(checkLoggin: locator.get())
-      ..add(ToggleAuthState(emptyParams: EmptyParams()));
+      ..add(ToggleAuthState(emptyParams: NoParams()));
   });
 }

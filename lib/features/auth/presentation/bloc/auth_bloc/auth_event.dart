@@ -4,6 +4,6 @@ part of 'auth_bloc.dart';
 sealed class AuthEvent {}
 
 class ToggleAuthState extends AuthEvent {
-  final EmptyParams emptyParams;
+  final NoParams emptyParams;
   ToggleAuthState({required this.emptyParams});
 }

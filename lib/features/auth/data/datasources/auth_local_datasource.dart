@@ -2,7 +2,7 @@ import 'package:auth_sample/core/netword/token_exeption.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class AuthLocalDatasource {
-  bool isUserLoggedIn();
+  bool checkLogin();
   Future<void> removeToken();
   Future<void> saveToken({required String token});
 }
@@ -31,7 +31,7 @@ class AuthLocalDatasourceImp implements AuthLocalDatasource {
   }
 
   @override
-  bool isUserLoggedIn() {
+  bool checkLogin() {
     try {
       String? token = sharedPreferences.getString('token');
       if (token == null || token.isEmpty) {

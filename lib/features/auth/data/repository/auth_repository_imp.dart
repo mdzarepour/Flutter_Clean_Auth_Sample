@@ -64,8 +64,8 @@ class AuthRepositoryImp implements AuthRepository {
   }
 
   @override
-  bool isUserLoggedIn() {
-    final bool isUserLoggedIn = authLocalDatasource.isUserLoggedIn();
+  bool checkLogin() {
+    final bool isUserLoggedIn = authLocalDatasource.checkLogin();
     if (isUserLoggedIn) {
       return true;
     } else {

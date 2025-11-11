@@ -16,27 +16,29 @@ class HomePage extends StatelessWidget {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            context.push(RouteNames.wrapperRouter);
+            context.go(RouteNames.wrapperRouter);
           }
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: user == null
               ? Column(
+                  spacing: 20,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('null information'),
+                    const Text('null information'),
                     AuthCubitButton(
                       title: 'Log Out',
                       onTap: () {
                         BlocProvider.of<ButtonCubit>(
                           context,
-                        ).logout(params: EmptyParams());
+                        ).logout(params: NoParams());
                       },
                     ),
                   ],
                 )
               : Column(
+                  spacing: 20,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(user!.username),
@@ -45,7 +47,7 @@ class HomePage extends StatelessWidget {
                       onTap: () {
                         BlocProvider.of<ButtonCubit>(
                           context,
-                        ).logout(params: EmptyParams());
+                        ).logout(params: NoParams());
                       },
                     ),
                   ],

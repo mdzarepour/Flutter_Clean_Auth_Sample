@@ -5,6 +5,6 @@ import 'package:dartz/dartz.dart';
 abstract interface class AuthRepository {
   Future<Either> registerUser({required RegisterParams params});
   Future<Either> loginUser({required LoginParams params});
-  bool isUserLoggedIn();
+  bool checkLogin();
   Future<bool> logoutUser();
 }

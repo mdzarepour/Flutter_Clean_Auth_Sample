@@ -34,7 +34,7 @@ class AuthCubitButton extends StatelessWidget {
             if (state is ButtonLoading) {
               return _loadingChild();
             }
-            return SizedBox.shrink();
+            return const SizedBox.shrink();
           },
         ),
       ),
@@ -42,7 +42,7 @@ class AuthCubitButton extends StatelessWidget {
   }
 
   Widget _loadingChild() {
-    return Center(
+    return const Center(
       child: CircularProgressIndicator(color: ConstColors.firstWhite),
     );
   }

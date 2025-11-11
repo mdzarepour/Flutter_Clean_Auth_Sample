@@ -19,6 +19,7 @@ class AppRouter {
   GoRouter get router => GoRouter(
     refreshListenable: GoRouterRefreshStream(authBloc.stream),
     navigatorKey: snackbarService.navigatorKey,
+    debugLogDiagnostics: true,
     initialLocation: RouteNames.wrapperRouter,
     routes: [
       GoRoute(
@@ -26,20 +27,26 @@ class AppRouter {
         pageBuilder: (context, state) {
           return const CupertinoPage(child: AuthWrapperPage());
         },
-        routes: [
-          GoRoute(
-            path: RouteNames.loginRoute,
-            pageBuilder: (context, state) {
-              return const CupertinoPage(child: AuthLoginPage());
-            },
-          ),
-          GoRoute(
-            path: RouteNames.registerRoute,
-            pageBuilder: (context, state) {
-              return const CupertinoPage(child: AuthRegisterPage());
-            },
-          ),
-        ],
+        redirect: (context, state) {
+          if (authBloc.state is Authenticated) {
+            return RouteNames.homeRoute;
+          }
+          if (authBloc.state is NotAuthenticated) {
+            return RouteNames.wrapperRouter;
+          }
+        },
+      ),
+      GoRoute(
+        path: RouteNames.loginRoute,
+        pageBuilder: (context, state) {
+          return const CupertinoPage(child: AuthLoginPage());
+        },
+      ),
+      GoRoute(
+        path: RouteNames.registerRoute,
+        pageBuilder: (context, state) {
+          return const CupertinoPage(child: AuthRegisterPage());
+        },
       ),
       GoRoute(
         path: RouteNames.homeRoute,
@@ -52,14 +59,14 @@ class AppRouter {
         },
       ),
     ],
-    redirect: (context, state) {
-      final authState = authBloc.state;
-      if (authState is Authenticated) {
-        return RouteNames.homeRoute;
-      }
-      if (authState is NotAuthenticated && state.fullPath == '/') {
-        return RouteNames.wrapperRouter;
-      }
-    },
   );
 }
+
+
+
+
+
+
+
+// masdoshane
+// 5679593262mM@

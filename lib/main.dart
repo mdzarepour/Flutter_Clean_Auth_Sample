@@ -6,8 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-//TODO wrte registerpage obscure toggle in single method
-
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await setupLocator();

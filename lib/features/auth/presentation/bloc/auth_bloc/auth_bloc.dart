@@ -8,12 +8,15 @@ part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final CheckLoggin checkLoggin;
+
   AuthBloc({required this.checkLoggin}) : super(AuthInitial()) {
     on<ToggleAuthState>((event, emit) {
       final bool isAuthenticated = checkLoggin.call(params: event.emptyParams);
-      if (isAuthenticated) {
+      print('$isAuthenticated === isauthenticated');
+      if (isAuthenticated == true) {
         emit(Authenticated());
-      } else {
+      }
+      if (isAuthenticated == false) {
         emit(NotAuthenticated());
       }
     });

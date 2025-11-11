@@ -11,7 +11,6 @@ import 'package:auth_sample/locator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 class AuthRegisterPage extends StatefulWidget {
   const AuthRegisterPage({super.key});
@@ -38,7 +37,7 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
       body: BlocListener<ButtonCubit, ButtonState>(
         listener: (context, state) {
           if (state is ButtonSuccess) {
-            context.pushReplacement(RouteNames.loginRoute);
+            //  context.pushReplacement(RouteNames.loginRoute);
           }
         },
         child: Form(

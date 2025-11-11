@@ -6,8 +6,8 @@ import 'package:auth_sample/features/auth/domain/entities/user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/login_user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/logout_user.dart';
 import 'package:auth_sample/features/auth/domain/usecases/register_user.dart';
+import 'package:auth_sample/features/auth/presentation/bloc/auth_bloc/auth_bloc.dart';
 import 'package:bloc/bloc.dart';
-import 'package:dartz/dartz.dart';
 import 'package:meta/meta.dart';
 
 part 'button_state.dart';
@@ -17,12 +17,14 @@ class ButtonCubit extends Cubit<ButtonState> {
   final LoginUser loginUserUsecase;
   final LogoutUser logoutUserUsecase;
   final SnackbarService snackbarService;
+  final AuthBloc authBloc;
 
   ButtonCubit({
     required this.registerUserUsecase,
     required this.loginUserUsecase,
     required this.logoutUserUsecase,
     required this.snackbarService,
+    required this.authBloc,
   }) : super(ButtonInitial());
 
   Future<void> register({required RegisterParams params}) async {
@@ -43,7 +45,7 @@ class ButtonCubit extends Cubit<ButtonState> {
 
   Future<void> login({required LoginParams params}) async {
     emit(ButtonLoading());
-    final Either either = await loginUserUsecase.call(params: params);
+    final either = await loginUserUsecase.call(params: params);
     either.fold(
       (message) {
         emit(ButtonFail());
@@ -52,19 +54,20 @@ class ButtonCubit extends Cubit<ButtonState> {
       },
       (user) {
         emit(ButtonSuccess(user: user));
+        authBloc.add(ToggleAuthState(emptyParams: NoParams()));
         emit(ButtonInitial());
       },
     );
   }
 
-  Future<void> logout({required EmptyParams params}) async {
+  Future<void> logout({required NoParams params}) async {
     emit(ButtonLoading());
     final bool status = await logoutUserUsecase.call(params: params);
     if (status) {
-      Future.delayed(const Duration(milliseconds: 1500), () {
-        emit(ButtonSuccess());
-        emit(ButtonInitial());
-      });
+      await Future.delayed(const Duration(milliseconds: 1500));
+      emit(ButtonSuccess());
+      authBloc.add(ToggleAuthState(emptyParams: NoParams()));
+      emit(ButtonInitial());
     } else {
       emit(ButtonFail());
       emit(ButtonInitial());

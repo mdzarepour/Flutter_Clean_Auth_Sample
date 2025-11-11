@@ -58,10 +58,11 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
         body: rabbit.artboard == null
             ? const Center(child: CircularProgressIndicator())
             : BlocListener<ButtonCubit, ButtonState>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state is ButtonFail) rabbit.fireFail();
                   if (state is ButtonSuccess) {
                     rabbit.fireSuccess();
+                    await Future.delayed(const Duration(milliseconds: 2800));
                     context.go(RouteNames.homeRoute, extra: state.user);
                   }
                 },
