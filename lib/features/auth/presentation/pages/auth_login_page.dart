@@ -73,8 +73,8 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30),
                     child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        const SizedBox(height: 80),
                         _title(),
                         _animation(),
                         _usernameField(),
@@ -95,7 +95,7 @@ class _AuthLoginPageState extends State<AuthLoginPage> {
 
   Widget _navigatorLink() {
     return const AuthLinkButton(
-      message: 'Don\'t have account?',
+      message: 'Don\'t havec an account?',
       title: 'creata account',
       route: RouteNames.registerRoute,
     );

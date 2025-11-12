@@ -46,8 +46,8 @@ class _AuthRegisterPageState extends State<AuthRegisterPage> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 30),
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 80),
                 _title(),
                 const SizedBox(height: 35),
                 _usernameField(),

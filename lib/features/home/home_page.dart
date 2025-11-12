@@ -21,37 +21,23 @@ class HomePage extends StatelessWidget {
         },
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: user == null
-              ? Column(
-                  spacing: 20,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Text('user not saved locally please log in again'),
-                    AuthCubitButton(
-                      title: 'Log Out',
-                      onTap: () {
-                        BlocProvider.of<ButtonCubit>(
-                          context,
-                        ).logout(params: NoParams());
-                      },
-                    ),
-                  ],
-                )
-              : Column(
-                  spacing: 20,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(user!.username),
-                    AuthCubitButton(
-                      title: 'Log Out',
-                      onTap: () {
-                        BlocProvider.of<ButtonCubit>(
-                          context,
-                        ).logout(params: NoParams());
-                      },
-                    ),
-                  ],
-                ),
+          child: Column(
+            spacing: 85,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                user?.username ?? 'user not saved locally please log in again',
+              ),
+              AuthCubitButton(
+                title: 'Log Out',
+                onTap: () {
+                  BlocProvider.of<ButtonCubit>(
+                    context,
+                  ).logout(params: NoParams());
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );

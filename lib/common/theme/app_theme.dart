@@ -11,7 +11,8 @@ class AppTheme {
 
   static InputDecorationThemeData _textfieldTheme() {
     return InputDecorationThemeData(
-      errorStyle: AppTextTheme.grey14normal,
+      errorMaxLines: 2,
+      errorStyle: const TextStyle(color: ConstColors.firstGrey, fontSize: 10),
       filled: true,
       fillColor: ConstColors.secondBlue,
       hintStyle: AppTextTheme.grey16normal,
